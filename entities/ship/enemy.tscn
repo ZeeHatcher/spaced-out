@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://entities/ship/ship.gd" type="Script" id=1]
+[ext_resource path="res://entities/turret/turret.gd" type="Script" id=2]
+[ext_resource path="res://health/flat_health.gd" type="Script" id=3]
+[ext_resource path="res://controllers/ai_controller.gd" type="Script" id=4]
+[ext_resource path="res://entities/projectile/enemy_projectile.tscn" type="PackedScene" id=5]
+
+[node name="Enemy" type="KinematicBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 1 )
+max_speed = 200
+rotation_speed = 1.0
+fuel_consumption_rate = 0.0
+controller = NodePath("AIController")
+health = NodePath("FlatHealth")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color( 1, 0, 0, 1 )
+polygon = PoolVector2Array( -8, -8, -8, 8, 16, 0 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -8, -8, -8, 8, 16, 0 )
+
+[node name="Turret" type="Node2D" parent="."]
+position = Vector2( 24, 0 )
+script = ExtResource( 2 )
+ProjectileScene = ExtResource( 5 )
+heat_cooldown_rate = 0.0
+heat_gain_rate = 0.0
+shoot_cooldown_duration = 2.0
+
+[node name="AIController" type="Node" parent="."]
+script = ExtResource( 4 )
+view_range = 200.0
+field_of_view = 0.5
+
+[node name="FlatHealth" type="Node" parent="."]
+script = ExtResource( 3 )

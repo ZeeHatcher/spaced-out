@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://entities/ship/ship.gd" type="Script" id=1]
+[ext_resource path="res://controllers/player_controller.gd" type="Script" id=2]
+[ext_resource path="res://entities/turret/turret.gd" type="Script" id=3]
+[ext_resource path="res://entities/projectile/player_projectile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://health/regen_health.gd" type="Script" id=5]
+
+[node name="Player" type="KinematicBody2D" groups=["players"]]
+collision_mask = 0
+script = ExtResource( 1 )
+rotation_speed = 4.0
+controller = NodePath("PlayerController")
+health = NodePath("RegenHealth")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PoolVector2Array( -8, -8, 16, 0, -8, 8 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( -8, -8, -8, 8, 16, 0 )
+
+[node name="Turret" type="Node2D" parent="."]
+position = Vector2( 24, 0 )
+script = ExtResource( 3 )
+ProjectileScene = ExtResource( 4 )
+shoot_cooldown_duration = 0.2
+
+[node name="PlayerController" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[node name="RegenHealth" type="Node" parent="."]
+script = ExtResource( 5 )
