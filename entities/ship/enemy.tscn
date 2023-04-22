@@ -40,7 +40,7 @@ stream = ExtResource( 7 )
 
 [node name="AIController" type="Node" parent="."]
 script = ExtResource( 4 )
-view_range = 200.0
+view_range = 400.0
 field_of_view = 0.5
 
 [node name="FlatHealth" type="Node" parent="."]

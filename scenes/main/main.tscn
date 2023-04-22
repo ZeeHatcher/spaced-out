@@ -18,7 +18,7 @@ uniform float circle_radius = 0.2;
 void fragment() {
     vec2 pixel_pos = (SCREEN_UV - circle_center) * vec2(SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x, 1.0);
     float distance = length(pixel_pos);
-    if (distance > circle_radius) {
+    if (distance > circle_radius + .1) {
         COLOR = vec4(1.0, 1.0, 1.0, 1.0); // Set pixels outside the circle to white
     } else {
         COLOR = texture(TEXTURE, UV) * 0.0; // Apply the overlay color to pixels inside the circle
@@ -36,13 +36,14 @@ script = ExtResource( 2 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_mirroring = Vector2( 1920, 1080 )
+motion_mirroring = Vector2( 960, 540 )
 
 [node name="BG" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 6 )
 centered = false
 region_enabled = true
-region_rect = Rect2( 0, 0, 1920, 1080 )
+region_rect = Rect2( 0, 0, 3840, 2160 )
 region_filter_clip = true
 script = ExtResource( 7 )
 
