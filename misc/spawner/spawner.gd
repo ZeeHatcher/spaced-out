@@ -52,7 +52,7 @@ func _despawn_far_entities():
 
 
 func _scale_up():
-	spawn_count += 2
+	spawn_count += 1
 
 
 func _on_SpawnTimer_timeout():

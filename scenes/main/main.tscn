@@ -55,12 +55,10 @@ script = ExtResource( 8 )
 
 [node name="Spawner" type="Node" parent="."]
 script = ExtResource( 4 )
-spawn_cooldown_duration = 5.0
 spawn_range = 500.0
 despawn_range = 1000.0
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-fuel_consumption_rate = 10.0
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Player"]
 remote_path = NodePath("../../Camera2D")

@@ -4,7 +4,7 @@ class_name RegenHealth
 
 signal depleted
 
-export(float) var health_regen_rate = 20.0
+export(float) var health_regen_rate = 40.0
 
 var _health = 100.0
 
@@ -14,7 +14,7 @@ func _physics_process(delta):
 
 
 func hurt():
-	_health = max(0.0, _health - 20.0)
+	_health = max(0.0, _health - 50.0)
 	
 	if _health <= 0.0:
 		emit_signal("depleted")

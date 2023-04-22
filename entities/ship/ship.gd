@@ -83,3 +83,6 @@ func _on_Health_depleted():
 	var death_audio = load("res://audio/death_audio.tscn").instance()
 	get_tree().root.get_node("Main").add_child(death_audio)
 	queue_free()
+
+
+

@@ -3,7 +3,7 @@ class_name Projectile
 
 
 export(int) var speed := 300
-export(float) var lifetime := 1.0
+export(float) var lifetime := 2.0
 
 
 func _ready():
