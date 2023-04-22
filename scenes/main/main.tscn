@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://entities/ship/player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/main/main.gd" type="Script" id=2]
@@ -7,38 +7,51 @@
 [ext_resource path="res://ui/hud/hud.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/bg.png" type="Texture" id=6]
 [ext_resource path="res://ui/bg/bg.gd" type="Script" id=7]
+[ext_resource path="res://scenes/main/overlay.gd" type="Script" id=8]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
-uniform mat4 global_transform;
-varying vec2 world_position;
-
-void vertex() {
-	world_position = (global_transform * vec4(VERTEX, 0.0, 1.0)).xy;
-}
+uniform vec2 circle_center = vec2(0.5,0.5);
+uniform float circle_radius = 0.2;
 
 void fragment() {
-	COLOR = texture(TEXTURE, UV);
+    vec2 pixel_pos = (SCREEN_UV - circle_center) * vec2(SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x, 1.0);
+    float distance = length(pixel_pos);
+    if (distance > circle_radius) {
+        COLOR = vec4(1.0, 1.0, 1.0, 1.0); // Set pixels outside the circle to white
+    } else {
+        COLOR = texture(TEXTURE, UV) * 0.0; // Apply the overlay color to pixels inside the circle
+    }
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/global_transform = null
+shader_param/circle_center = Vector2( 0.5, 0.5 )
+shader_param/circle_radius = 0.2
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = -1
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="BG" type="TextureRect" parent="CanvasLayer"]
-material = SubResource( 2 )
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 1920, 1080 )
+
+[node name="BG" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 texture = ExtResource( 6 )
-stretch_mode = 2
+centered = false
+region_enabled = true
+region_rect = Rect2( 0, 0, 1920, 1080 )
+region_filter_clip = true
 script = ExtResource( 7 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Overlay" type="TextureRect" parent="CanvasLayer"]
+material = SubResource( 2 )
+texture = ExtResource( 6 )
+script = ExtResource( 8 )
 
 [node name="Spawner" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -54,7 +67,6 @@ remote_path = NodePath("../../Camera2D")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
-zoom = Vector2( 0.5, 0.5 )
 
 [node name="Guide" parent="." instance=ExtResource( 3 )]
 

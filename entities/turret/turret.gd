@@ -11,6 +11,8 @@ export(float) var heat_cooldown_rate = 20.0
 export(float) var heat_gain_rate = 10.0
 export(float) var shoot_cooldown_duration = 0.1
 
+onready var _shoot_audio_player = $ShootAudio
+
 var heat = 0.0
 
 var _can_shoot = true
@@ -40,6 +42,7 @@ func shoot():
 		projectile.global_position = global_position
 		Events.emit_signal("entity_spawned", projectile)
 		emit_signal("shot")
+		_shoot_audio_player.play()
 	
 	heat += heat_gain_rate
 	_can_shoot = false

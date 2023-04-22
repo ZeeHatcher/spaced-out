@@ -20,6 +20,8 @@ var fuel := 100.0
 onready var _turret = $Turret
 onready var _controller = get_node(controller)
 onready var _health = get_node(health)
+onready var _hit_audio_player = $HitAudio
+onready var _engine_audio_player := $EngineAudio
 
 
 func _ready():
@@ -41,6 +43,12 @@ func _physics_process(delta: float) -> void:
 	
 	if is_thrusting:
 		fuel = max(0.0, fuel - fuel_consumption_rate * delta)
+		
+	if is_thrusting and fuel > 0:
+		if not _engine_audio_player.playing:
+			_engine_audio_player.play(0.0)
+	else:
+		_engine_audio_player.stop()
 
 
 func shoot():
@@ -50,9 +58,10 @@ func shoot():
 func hurt():
 	if _health:
 		_health.hurt()
+		_hit_audio_player.play()
 
 
-func _calculate_velocity(delta: float) -> void:
+func _calculate_velocity(delta: float) -> void: 
 	if _has_fuel() and is_thrusting:
 		velocity += Vector2(acceleration * delta, 0.0).rotated(rotation)
 	else:
@@ -71,4 +80,6 @@ func _has_fuel() -> bool:
 
 func _on_Health_depleted():
 	emit_signal("destroyed")
+	var death_audio = load("res://audio/death_audio.tscn").instance()
+	get_tree().root.get_node("Main").add_child(death_audio)
 	queue_free()

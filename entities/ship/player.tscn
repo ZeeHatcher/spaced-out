@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://entities/ship/ship.gd" type="Script" id=1]
 [ext_resource path="res://controllers/player_controller.gd" type="Script" id=2]
 [ext_resource path="res://entities/turret/turret.gd" type="Script" id=3]
 [ext_resource path="res://entities/projectile/player_projectile.tscn" type="PackedScene" id=4]
 [ext_resource path="res://health/regen_health.gd" type="Script" id=5]
+[ext_resource path="res://assets/sfx/engine.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/shoot.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/damage.wav" type="AudioStream" id=8]
 
 [node name="Player" type="KinematicBody2D" groups=["players"]]
 collision_mask = 0
@@ -25,8 +28,18 @@ script = ExtResource( 3 )
 ProjectileScene = ExtResource( 4 )
 shoot_cooldown_duration = 0.2
 
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="Turret"]
+position = Vector2( -24, 0 )
+stream = ExtResource( 7 )
+
 [node name="PlayerController" type="Node" parent="."]
 script = ExtResource( 2 )
 
 [node name="RegenHealth" type="Node" parent="."]
 script = ExtResource( 5 )
+
+[node name="EngineAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )

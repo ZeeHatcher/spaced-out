@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://entities/ship/ship.gd" type="Script" id=1]
 [ext_resource path="res://entities/turret/turret.gd" type="Script" id=2]
 [ext_resource path="res://health/flat_health.gd" type="Script" id=3]
 [ext_resource path="res://controllers/ai_controller.gd" type="Script" id=4]
 [ext_resource path="res://entities/projectile/enemy_projectile.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/sfx/engine.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/sfx/shoot.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/sfx/damage.wav" type="AudioStream" id=8]
 
 [node name="Enemy" type="KinematicBody2D" groups=["enemies"]]
 collision_layer = 2
@@ -31,6 +34,10 @@ heat_cooldown_rate = 0.0
 heat_gain_rate = 0.0
 shoot_cooldown_duration = 2.0
 
+[node name="ShootAudio" type="AudioStreamPlayer2D" parent="Turret"]
+position = Vector2( -24, 0 )
+stream = ExtResource( 7 )
+
 [node name="AIController" type="Node" parent="."]
 script = ExtResource( 4 )
 view_range = 200.0
@@ -38,3 +45,10 @@ field_of_view = 0.5
 
 [node name="FlatHealth" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="EngineAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -46.192
+
+[node name="HitAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )

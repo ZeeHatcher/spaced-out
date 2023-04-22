@@ -18,3 +18,7 @@ func hurt():
 	
 	if _health <= 0.0:
 		emit_signal("depleted")
+
+
+func get_health_percentage():
+	return _health / 100

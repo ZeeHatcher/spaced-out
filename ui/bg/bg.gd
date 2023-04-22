@@ -1,5 +1,6 @@
-extends TextureRect
+extends Sprite
 
 
 func _ready():
-	material.set_shader_param("global_transform", get_global_transform())
+	pass
+#	material.set_shader_param("global_transform", get_global_transform())

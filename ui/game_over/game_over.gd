@@ -15,3 +15,9 @@ func _input(event):
 
 func _on_AnimationPlayer_animation_finished(anim_name):
 	_can_continue = true
+
+
+func set_time(time_elapsed):
+	var minutes = time_elapsed / 60
+	var seconds = int(time_elapsed) % 60
+	$CenterContainer/VBoxContainer/Time.text = ("%d minutes %02d seconds" % [minutes, seconds])
