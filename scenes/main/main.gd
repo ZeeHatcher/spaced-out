@@ -34,7 +34,7 @@ func _game_over():
 func _process(delta):
 	time_elapsed += delta
 	
-	if is_instance_valid($Player):
+	if is_instance_valid(_player):
 		$CanvasLayer/Overlay.set_radius($Player._health.get_health_percentage())
 	else:
 		$CanvasLayer/Overlay.set_radius(1.0)
